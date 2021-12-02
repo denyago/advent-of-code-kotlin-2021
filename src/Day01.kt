@@ -1,17 +1,28 @@
+import Day01.incrementsCount
+
+object Day01 {
+  fun readInputsInts(name: String) =
+    readInput(name).map(String::toInt)
+
+  fun List<Int>.incrementsCount(): Int =
+    this.windowed(2).fold(0) { increments, measures ->
+      increments + if (measures.last() > measures.first()) {
+        1
+      } else {
+        0
+      }
+    }
+}
+
 fun main() {
-    fun part1(input: List<String>): Int {
-        return input.size
-    }
+  println(
+    "Part 1: " +
+            Day01.readInputsInts("Day01_p1").incrementsCount()
 
-    fun part2(input: List<String>): Int {
-        return input.size
-    }
+  )
 
-    // test if implementation meets criteria from the description, like:
-    val testInput = readInput("Day01_test")
-    check(part1(testInput) == 1)
-
-    val input = readInput("Day01")
-    println(part1(input))
-    println(part2(input))
+  println(
+    "Part 2: " +
+            readInput("Day01_p2").map(String::toInt).windowed(3, transform = { it.sum() }).incrementsCount()
+  )
 }
