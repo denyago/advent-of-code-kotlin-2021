@@ -4,25 +4,20 @@ object Day01 {
   fun readInputsInts(name: String) =
     readInput(name).map(String::toInt)
 
-  fun List<Int>.incrementsCount(): Int =
-    this.windowed(2).fold(0) { increments, measures ->
-      increments + if (measures.last() > measures.first()) {
-        1
-      } else {
-        0
-      }
-    }
+  fun List<List<Int>>.incrementsCount(): Int =
+    this.count { list -> list.last() > list.first() }
 }
 
 fun main() {
   println(
     "Part 1: " +
-            Day01.readInputsInts("Day01_p1").incrementsCount()
+            Day01.readInputsInts("Day01_p1").windowed(2).incrementsCount()
 
-  )
+  ) // 1233
 
   println(
     "Part 2: " +
-            readInput("Day01_p2").map(String::toInt).windowed(3, transform = { it.sum() }).incrementsCount()
-  )
+            // A + B + C <=> B + C + D -> A B C D -> D > A
+            readInput("Day01_p2").map(String::toInt).windowed(4).incrementsCount()
+  ) // 1275
 }
