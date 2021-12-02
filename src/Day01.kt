@@ -18,6 +18,6 @@ fun main() {
   println(
     "Part 2: " +
             // A + B + C <=> B + C + D -> A B C D -> D > A
-            readInput("Day01_p2").map(String::toInt).windowed(4).incrementsCount()
+            Day01.readInputsInts("Day01_p2").windowed(4).incrementsCount()
   ) // 1275
 }
