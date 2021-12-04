@@ -9,7 +9,7 @@ object Day03 {
           when (c) {
             '0' -> currentCount.withMoreZeros()
             '1' -> currentCount.withMoreOnes()
-            else -> Count()
+            else -> currentCount
           }
         }
       }
