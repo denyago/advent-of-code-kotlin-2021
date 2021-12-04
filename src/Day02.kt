@@ -2,7 +2,22 @@ enum class Direction {
   FORWARD, UP, DOWN
 }
 
-data class Command(val direction: Direction, val units: Int)
+data class Command(val direction: Direction, val units: Int) {
+  companion object {
+    fun fromString(line: String) : Command {
+      val (textCommand, units) = line.split(" ")
+      return Command(
+        when (textCommand) {
+          "up" -> Direction.UP
+          "down" -> Direction.DOWN
+          "forward" -> Direction.FORWARD
+          else -> throw RuntimeException("Command $textCommand is not supported")
+        },
+        units.toInt()
+      )
+    }
+  }
+}
 
 data class Position(val depth: Int = 0, val distance: Int = 0) {
   fun applyCommand(command: Command) =
@@ -24,21 +39,7 @@ data class PositionWithAim(val depth: Int = 0, val distance: Int = 0, val aim: I
 
 object Day02 {
   fun readCommands(name: String) =
-    readInput(name).asCommands()
-
-  private fun List<String>.asCommands(): List<Command> =
-    this.map { line ->
-      val (textCommand, units) = line.split(" ")
-      Command(
-        when (textCommand) {
-          "up" -> Direction.UP
-          "down" -> Direction.DOWN
-          "forward" -> Direction.FORWARD
-          else -> throw RuntimeException("Command $textCommand is not supported")
-        },
-        units.toInt()
-      )
-    }
+    readInput(name).map(Command::fromString)
 }
 
 fun main() {
