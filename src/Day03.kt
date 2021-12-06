@@ -3,16 +3,16 @@ import Day03.multiply
 
 object Day03 {
   fun List<String>.asCounts() =
-      this.fold(emptyList<Count>()) { acc, line ->
-        line.mapIndexed { index, c ->
-          val currentCount = acc.getOrElse(index) { Count() }
-          when (c) {
-            '0' -> currentCount.withMoreZeros()
-            '1' -> currentCount.withMoreOnes()
-            else -> currentCount
-          }
+    this.fold(emptyList<Count>()) { acc, line ->
+      line.mapIndexed { index, c ->
+        val currentCount = acc.getOrElse(index) { Count() }
+        when (c) {
+          '0' -> currentCount.withMoreZeros()
+          '1' -> currentCount.withMoreOnes()
+          else -> currentCount
         }
       }
+    }
 
   fun reduceList(list: List<String>, condition: (count: Count) -> Int, iteration: Int = 0): List<String> =
     if (list.size == 1) {
@@ -28,28 +28,27 @@ object Day03 {
 
   fun multiply(first: String, second: String) =
     Integer.parseInt(first, 2) * Integer.parseInt(second, 2)
-
 }
 
 fun main() {
   println(
     "Part 1: " +
-            readInput("Day03_p1").let { list ->
-              val counts = list.asCounts()
-              val epsilonBinary = counts.map(Count::mostCommon).joinToString("")
-              val gammaBinary = counts.map(Count::leastCommon).joinToString("")
-              multiply(epsilonBinary, gammaBinary)
-            }
+      readInput("Day03_p1").let { list ->
+        val counts = list.asCounts()
+        val epsilonBinary = counts.map(Count::mostCommon).joinToString("")
+        val gammaBinary = counts.map(Count::leastCommon).joinToString("")
+        multiply(epsilonBinary, gammaBinary)
+      }
 
   ) // 4139586
 
   println(
     "Part 2: " +
-            readInput("Day03_p2").let { list ->
-              val oxygenRatingBin = Day03.reduceList(list, Count::mostCommon).joinToString("")
-              val co2RatingBin = Day03.reduceList(list, Count::leastCommon).joinToString("")
-              multiply(oxygenRatingBin, co2RatingBin)
-            }
+      readInput("Day03_p2").let { list ->
+        val oxygenRatingBin = Day03.reduceList(list, Count::mostCommon).joinToString("")
+        val co2RatingBin = Day03.reduceList(list, Count::leastCommon).joinToString("")
+        multiply(oxygenRatingBin, co2RatingBin)
+      }
   ) // 1800151
 }
 
@@ -74,4 +73,3 @@ data class Count(val zeros: Int = 0, val ones: Int = 0) {
       0
     }
 }
-

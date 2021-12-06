@@ -3,15 +3,17 @@ enum class Direction {
 }
 
 data class Command(val direction: Direction, val units: Int) {
+  class ParsingError(message: String) : Exception(message)
+
   companion object {
-    fun fromString(line: String) : Command {
+    fun fromString(line: String): Command {
       val (textCommand, units) = line.split(" ")
       return Command(
         when (textCommand) {
           "up" -> Direction.UP
           "down" -> Direction.DOWN
           "forward" -> Direction.FORWARD
-          else -> throw RuntimeException("Command $textCommand is not supported")
+          else -> throw ParsingError("Command $textCommand is not supported")
         },
         units.toInt()
       )
@@ -45,17 +47,16 @@ object Day02 {
 fun main() {
   println(
     "Part 1: " +
-            Day02.readCommands("Day02_p1").fold(Position()) { position, command ->
-              position.applyCommand(command)
-            }.let { position -> position.depth * position.distance }
+      Day02.readCommands("Day02_p1").fold(Position()) { position, command ->
+        position.applyCommand(command)
+      }.let { position -> position.depth * position.distance }
 
   ) // 1524750
 
   println(
     "Part 2: " +
-            Day02.readCommands("Day02_p2").fold(PositionWithAim()) { position, command ->
-              position.applyCommand(command)
-            }.let { position -> position.depth * position.distance }
+      Day02.readCommands("Day02_p2").fold(PositionWithAim()) { position, command ->
+        position.applyCommand(command)
+      }.let { position -> position.depth * position.distance }
   ) // 1592426537
 }
-

@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 import Day04.asGame
 import Day04.play
 
@@ -6,10 +8,10 @@ fun main() {
   val game1 = readInput("Day04_p1").asGame()
   println(
     "Part 1: " +
-            play(
-              game1,
-              shouldPlayAsLongAs = noWinningBoardsYet
-            ).winningBoard().score
+      play(
+        game1,
+        shouldPlayAsLongAs = noWinningBoardsYet
+      ).winningBoard().score
 
   ) // 4662
 
@@ -17,20 +19,24 @@ fun main() {
   val game2 = readInput("Day04_p1").asGame()
   println(
     "Part 2: " +
-            play(
-              game2,
-              shouldPlayAsLongAs = notAllBoardsHaveWon
-            ).winningBoard().score
+      play(
+        game2,
+        shouldPlayAsLongAs = notAllBoardsHaveWon
+      ).winningBoard().score
   ) // 12080
 }
 
 object Day04 {
+  private const val EXTRA_LINES = 1
+
   fun List<String>.asGame(): Game {
     val numberLine = this.first()
-    val rawBoards = drop(1).chunked(6).map { it.drop(1) }
+    val rawBoards = drop(EXTRA_LINES)
+      .chunked(Board.SIZE + EXTRA_LINES)
+      .map { it.drop(EXTRA_LINES) }
     return Game(
       numberLine.split(",").map(String::toInt),
-      rawBoards.map { Board.fromText(it) }
+      rawBoards.map(Board.Companion::fromText)
     )
   }
 
@@ -49,10 +55,10 @@ data class Game(
 ) {
   fun inspect() =
     numbers.joinToString(", ") +
-            "\n\n" +
-            boards.mapIndexed { index, board ->
-              board.inspect { "Board $index" }
-            }.joinToString("\n\n")
+      "\n\n" +
+      boards.mapIndexed { index, board ->
+        board.inspect { "Board $index" }
+      }.joinToString("\n\n")
 
   fun takeTurn() =
     if (numbers.isEmpty()) {
@@ -73,7 +79,6 @@ data class Game(
   fun winningBoard(): Board =
     winningBoards.lastOrNull() ?: Board()
 }
-
 
 class Board {
   var score = 0
@@ -96,13 +101,15 @@ class Board {
 
   fun inspect(name: (board: Board) -> String = { board -> "Board #${board.hashCode()}" }) =
     name(this) + if (isWinning) " (had won with score $score)" else "" + "\n" +
-    (0..4).joinToString("\n") { rowIndex ->
-      (0..4).joinToString("") { columnIndex ->
-        numbers.getOrDefault(buildKey(columnIndex, rowIndex), BingoNumber(-1)).inspect()
+      (0 until SIZE).joinToString("\n") { rowIndex ->
+        (0 until SIZE).joinToString("") { columnIndex ->
+          numbers.getOrDefault(buildKey(columnIndex, rowIndex), BingoNumber(-1)).inspect()
+        }
       }
-    }
 
   companion object {
+    const val SIZE = 5
+
     fun fromText(lines: List<String>) =
       lines.foldIndexed(Board()) { rowIndex, board, line ->
         line.trim().split("""\s+""".toRegex())
@@ -120,9 +127,11 @@ class Board {
 
   private fun maybeWinning(key: Key): Boolean {
     val rawWinning =
-      (0..4).map { buildKey(it, key.rowIndex) }.count { numbers.getOrDefault(it, BingoNumber(-1)).isMarked } == 5
+      (0 until SIZE).map { buildKey(it, key.rowIndex) }
+        .count { numbers.getOrDefault(it, BingoNumber(-1)).isMarked } == SIZE
     val columnWinning =
-      (0..4).map { buildKey(key.columnIndex, it) }.count { numbers.getOrDefault(it, BingoNumber(-1)).isMarked } == 5
+      (0 until SIZE).map { buildKey(key.columnIndex, it) }
+        .count { numbers.getOrDefault(it, BingoNumber(-1)).isMarked } == SIZE
     return rawWinning || columnWinning
   }
 }
