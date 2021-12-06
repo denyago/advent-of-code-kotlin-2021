@@ -13,9 +13,8 @@ fun main() {
   ) // 5608 (test = 5)
 
   val ventLines2 = readInput("Day05_p2")
-     .asVentLines()// .filter { it.isDiagonal() }
+    .asVentLines()
   println("Parsed Lines: ${ventLines2.count()}")
-  // println(ventLines2.joinToString("\n", transform = VentLine::inspect))
   val diagram2 = Diagram(ventLines2)
   println("Built Diagram.\n${diagram2.inspect()}")
   println(
@@ -27,14 +26,14 @@ fun main() {
 object Day05 {
   fun List<String>.asVentLines() =
     this.map(VentLine::fromString)
-
 }
 
 data class VentLine(val start: Point, val end: Point) {
   fun asPoints() =
     asXs().zip(asYs())
-      .fold(emptyList<Point>()) { list, p -> list + listOf(Point(p.first, p.second))
-    }
+      .fold(emptyList<Point>()) { list, p ->
+        list + listOf(Point(p.first, p.second))
+      }
 
   fun isHorizontal() =
     start.x != end.x && start.y == end.y
@@ -51,14 +50,18 @@ data class VentLine(val start: Point, val end: Point) {
     if (xLength == 0) {
       generateSequence { start.x }.take(yLength + 1).toList()
     } else {
-      listOf(start.x, end.x).let { (s, e) -> if (s < e) (s until  e + 1) else (s downTo e) }.toList()
+      listOf(start.x, end.x).let { (s, e) ->
+        if (s < e) (s until e + 1) else (s downTo e)
+      }.toList()
     }
 
   private fun asYs() =
     if (yLength == 0) {
       generateSequence { start.y }.take(xLength + 1).toList()
     } else {
-      listOf(start.y, end.y).let { (s, e) -> if (s < e) (s until  e + 1) else (s downTo e) }.toList()
+      listOf(start.y, end.y).let { (s, e) ->
+        if (s < e) (s until e + 1) else (s downTo e)
+      }.toList()
     }
 
   private val yLength = abs(end.y - start.y)
