@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 import Day04.asGame
 import Day04.play
 
@@ -36,7 +34,7 @@ object Day04 {
       .map { it.drop(EXTRA_LINES) }
     return Game(
       numberLine.split(",").map(String::toInt),
-        rawBoards.map(Board.Companion::fromText)
+      rawBoards.map(Board.Companion::fromText)
     )
   }
 
@@ -53,6 +51,7 @@ data class Game(
   val boards: List<Board>,
   val winningBoards: List<Board> = emptyList()
 ) {
+  @Suppress("unused")
   fun inspect() =
     numbers.joinToString(", ") +
       "\n\n" +
