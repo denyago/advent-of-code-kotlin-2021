@@ -36,7 +36,7 @@ object Day04 {
       .map { it.drop(EXTRA_LINES) }
     return Game(
       numberLine.split(",").map(String::toInt),
-      rawBoards.map(Board.Companion::fromText)
+        rawBoards.map(Board.Companion::fromText)
     )
   }
 
