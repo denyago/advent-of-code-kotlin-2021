@@ -1,5 +1,7 @@
 # advent-of-code-kotlin-2021
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/57e86c594e2f49e8a0c1ae6b4a1e5fd7)](https://app.codacy.com/gh/denyago/advent-of-code-kotlin-2021?utm_source=github.com&utm_medium=referral&utm_content=denyago/advent-of-code-kotlin-2021&utm_campaign=Badge_Grade_Settings)
+
 Welcome to the Advent of Code[^aoc] Kotlin project created by [denyago][github] using the [Advent of Code Kotlin Template][template] delivered by JetBrains.
 
 In this repository, denyago is about to provide solutions for the puzzles using [Kotlin][kotlin] language.
