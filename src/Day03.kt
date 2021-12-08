@@ -27,7 +27,7 @@ object Day03 {
     }
 
   fun multiply(first: String, second: String) =
-    Integer.parseInt(first, 2) * Integer.parseInt(second, 2)
+    first.toInt(2) * second.toInt(2)
 }
 
 fun main() {
@@ -39,7 +39,6 @@ fun main() {
         val gammaBinary = counts.map(Count::leastCommon).joinToString("")
         multiply(epsilonBinary, gammaBinary)
       }
-
   ) // 4139586
 
   println(
