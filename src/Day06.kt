@@ -20,7 +20,7 @@ private fun List<String>.asInts() =
 // I could make something reasonable for the Part 1 only.
 object SeaSimulation {
   fun rewind(fish: List<Int>, days: Int, debug: Boolean = false): Long {
-    var fishByCycle = fish.fold(arrayListOf(0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L)) { acc, cycle ->
+    var fishByCycle = fish.fold(List(9) { 0L }.toMutableList()) { acc, cycle ->
       acc[cycle] += 1L
       acc
     }
