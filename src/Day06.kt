@@ -10,7 +10,7 @@ fun main() {
   println(
     "Part 2: " +
       SeaSimulation.rewind(fish1, 256)
-  ) // -> Java heap space :metal: (test = ??)
+  ) // -> 1674303997472
 }
 
 private fun List<String>.asInts() =
